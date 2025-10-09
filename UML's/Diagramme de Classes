@@ -1,0 +1,69 @@
+@startuml
+
+abstract class Utilisateur {
+  - prenom: String
+  - nom: String
+  - courriel: String
+  - motDePasse: String
+  - dateCreation: Date
+  - dateModification: Date
+  + authentifier(motDePasse: String): boolean
+  + changerMotDePasse(nouveauMotDePasse: String): void
+}
+
+class Administrateur {
+  + creerUtilisateurServeur(): boolean
+  + supprimerUtilisateurServeur(): boolean
+  + reinitialiserMotDePasseUtilisateur(): boolean
+  + reinitialiserBaseDonnees(): void
+}
+
+class Chef {
+  // Aucune méthode pour Livrable 1
+  // Seulement hérite de Utilisateur (auth + changement mdp)
+}
+
+class Serveur {
+  - idServeur: String
+  // Aucune méthode pour Livrable 1  
+  // Seulement hérite de Utilisateur (auth + changement mdp)
+}
+
+class SystemeAuthentification {
+  + authentifierUtilisateur(courriel: String, motDePasse: String): boolean
+  + creerSession(): void
+  + terminerSession(): void
+}
+
+Utilisateur <|-- Administrateur
+Utilisateur <|-- Chef
+Utilisateur <|-- Serveur
+
+SystemeAuthentification "1" -- "1..*" Utilisateur
+Administrateur "1" -- "0..*" Serveur
+
+note top of Administrateur
+FONCTIONNALITÉS LIVRABLE 1:
+- Créer/supprimer Serveurs
+- Réinitialiser mots de passe
+- Réinitialiser base données
+Utilisateur prédéfini:
+courriel: "admin"
+motDePasse: "admin-pwd"
+end note
+
+note top of Chef
+FONCTIONNALITÉS LIVRABLE 1:
+- Aucune (authentification seulement)
+Utilisateur prédéfini:
+courriel: "chef"
+motDePasse: "chef-pwd"
+end note
+
+note top of Serveur  
+FONCTIONNALITÉS LIVRABLE 1:
+- Aucune (authentification seulement)
+Créé par Administrateur
+end note
+
+@enduml
