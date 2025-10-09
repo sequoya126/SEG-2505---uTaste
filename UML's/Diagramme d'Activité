@@ -1,0 +1,43 @@
+@startuml
+
+start
+
+:Écran accueil uTaste;
+:Saisie courriel/mot de passe;
+
+if (Champs valides ?) then (oui)
+  if (Authentification réussie ?) then (oui)
+    :Créer session;
+    
+    if (Rôle = Administrateur) then (oui)
+      :Afficher menu Administrateur;
+      while (Session active) is (oui)
+        if (Créer serveur) then (oui)
+          :Créer compte Serveur;
+        else if (Supprimer serveur) then (oui)
+          :Supprimer compte Serveur;
+        else if (Réinitialiser mdp) then (oui)
+          :Réinitialiser mot de passe;
+        else if (Déconnexion) then (oui)
+          break
+        endif
+      endwhile
+    else if (Rôle = Chef) then (oui)
+      :Afficher "Menu Chef - Fonctionnalités futures";
+      :Bouton déconnexion seulement;
+    else (Rôle = Serveur)
+      :Afficher "Menu Serveur - Fonctionnalités futures";
+      :Bouton déconnexion seulement;
+    endif
+    
+    :Terminer session;
+  else (non)
+    :"Erreur: Mauvais courriel/mot de passe";
+  endif
+else (non)
+  :"Erreur: Champs invalides";
+endif
+
+stop
+
+@enduml
